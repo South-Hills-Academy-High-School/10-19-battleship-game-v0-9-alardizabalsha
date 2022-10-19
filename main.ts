@@ -19,12 +19,13 @@ function makeBoatVisible (boatArray: Sprite[]) {
     }
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    currentBoat += 1
+    grid.place(cursor, tiles.getTileLocation(0, 0))
     if (currentBoat == 2) {
-        cursor.setFlag(SpriteFlag.Invisible, false)
-        moveBoatFlag = 0
-    } else {
-        currentBoat += 1
-        grid.place(cursor, tiles.getTileLocation(0, 0))
+        currentBoat = 0
+        for (let value4 of boatspritep1) {
+            makeBoatInvisible(value4)
+        }
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -32,6 +33,29 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     grid.move(cursor, -1, 0)
     grid.place(shadowCursor, tiles.getTileLocation(grid.spriteCol(cursor) + 1, grid.spriteRow(cursor)))
 })
+function updatepx (whichplayer: string) {
+    if (moveBoatFlag == 1) {
+        if (whichplayer == "player1") {
+            moveBoat(boatspritep1[currentBoat])
+            if (isOverlapping(boatspritep1)) {
+                if (rotateFlag != "nothing") {
+                    boatRotateArray[currentBoat] = rotateFlag
+                } else {
+                    grid.place(cursor, grid.getLocation(shadowCursor))
+                }
+            }
+        } else {
+            moveBoat(boatspritep2[currentBoat])
+            if (isOverlapping(boatspritep2)) {
+                if (rotateFlag != "nothing") {
+                    boatRotateArray[currentBoat] = rotateFlag
+                } else {
+                    grid.place(cursor, grid.getLocation(shadowCursor))
+                }
+            }
+        }
+    }
+}
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     rotateFlag = "nothing"
     grid.move(cursor, 1, 0)
@@ -74,6 +98,171 @@ function makeBoatInvisible (boatArray: Sprite[]) {
         value3.setFlag(SpriteFlag.Invisible, true)
     }
 }
+function p2 () {
+    boatspritep2 = [[sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . f f f f f f . f f f f f f . 
+        . f f 3 3 3 3 f f f 3 3 3 3 f f 
+        . f 3 3 3 3 3 3 f 3 3 3 3 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 b b b 1 1 1 3 3 f 
+        . f 3 3 3 3 b b b b b 3 3 3 3 f 
+        . f f 3 3 b b b b b b b 3 3 f f 
+        . . f f 3 b b b b b b b 3 f f . 
+        . . . f f b b b b b b b f f . . 
+        . . . . f f b b b b b f f . . . 
+        . . . . . f f b b b f f . . . . 
+        . . . . . . f f b f f . . . . . 
+        . . . . . . . f f f . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Boat0), sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . f f f f f f . f f f f f f . 
+        . f f 3 3 3 3 f f f 3 3 3 3 f f 
+        . f 3 3 3 3 3 3 f 3 3 3 3 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 b b b 1 1 1 3 3 f 
+        . f 3 3 3 3 b b b b b 3 3 3 3 f 
+        . f f 3 3 b b b b b b b 3 3 f f 
+        . . f f 3 b b b b b b b 3 f f . 
+        . . . f f b b b b b b b f f . . 
+        . . . . f f b b b b b f f . . . 
+        . . . . . f f b b b f f . . . . 
+        . . . . . . f f b f f . . . . . 
+        . . . . . . . f f f . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Boat0)], [sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . f f f f f f . f f f f f f . 
+        . f f 3 3 3 3 f f f 3 3 3 3 f f 
+        . f 3 3 3 3 3 3 f 3 3 3 3 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 b b b 1 1 1 3 3 f 
+        . f 3 3 3 3 b b b b b 3 3 3 3 f 
+        . f f 3 3 b b b b b b b 3 3 f f 
+        . . f f 3 b b b b b b b 3 f f . 
+        . . . f f b b b b b b b f f . . 
+        . . . . f f b b b b b f f . . . 
+        . . . . . f f b b b f f . . . . 
+        . . . . . . f f b f f . . . . . 
+        . . . . . . . f f f . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Boat1), sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . f f f f f f . f f f f f f . 
+        . f f 3 3 3 3 f f f 3 3 3 3 f f 
+        . f 3 3 3 3 3 3 f 3 3 3 3 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 b b b 1 1 1 3 3 f 
+        . f 3 3 3 3 b b b b b 3 3 3 3 f 
+        . f f 3 3 b b b b b b b 3 3 f f 
+        . . f f 3 b b b b b b b 3 f f . 
+        . . . f f b b b b b b b f f . . 
+        . . . . f f b b b b b f f . . . 
+        . . . . . f f b b b f f . . . . 
+        . . . . . . f f b f f . . . . . 
+        . . . . . . . f f f . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Boat1), sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . f f f f f f . f f f f f f . 
+        . f f 3 3 3 3 f f f 3 3 3 3 f f 
+        . f 3 3 3 3 3 3 f 3 3 3 3 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 b b b 1 1 1 3 3 f 
+        . f 3 3 3 3 b b b b b 3 3 3 3 f 
+        . f f 3 3 b b b b b b b 3 3 f f 
+        . . f f 3 b b b b b b b 3 f f . 
+        . . . f f b b b b b b b f f . . 
+        . . . . f f b b b b b f f . . . 
+        . . . . . f f b b b f f . . . . 
+        . . . . . . f f b f f . . . . . 
+        . . . . . . . f f f . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Boat1)], [
+    sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . f f f f f f . f f f f f f . 
+        . f f 3 3 3 3 f f f 3 3 3 3 f f 
+        . f 3 3 3 3 3 3 f 3 3 3 3 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 b b b 1 1 1 3 3 f 
+        . f 3 3 3 3 b b b b b 3 3 3 3 f 
+        . f f 3 3 b b b b b b b 3 3 f f 
+        . . f f 3 b b b b b b b 3 f f . 
+        . . . f f b b b b b b b f f . . 
+        . . . . f f b b b b b f f . . . 
+        . . . . . f f b b b f f . . . . 
+        . . . . . . f f b f f . . . . . 
+        . . . . . . . f f f . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Boat2),
+    sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . f f f f f f . f f f f f f . 
+        . f f 3 3 3 3 f f f 3 3 3 3 f f 
+        . f 3 3 3 3 3 3 f 3 3 3 3 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 b b b 1 1 1 3 3 f 
+        . f 3 3 3 3 b b b b b 3 3 3 3 f 
+        . f f 3 3 b b b b b b b 3 3 f f 
+        . . f f 3 b b b b b b b 3 f f . 
+        . . . f f b b b b b b b f f . . 
+        . . . . f f b b b b b f f . . . 
+        . . . . . f f b b b f f . . . . 
+        . . . . . . f f b f f . . . . . 
+        . . . . . . . f f f . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Boat2),
+    sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . f f f f f f . f f f f f f . 
+        . f f 3 3 3 3 f f f 3 3 3 3 f f 
+        . f 3 3 3 3 3 3 f 3 3 3 3 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 b b b 1 1 1 3 3 f 
+        . f 3 3 3 3 b b b b b 3 3 3 3 f 
+        . f f 3 3 b b b b b b b 3 3 f f 
+        . . f f 3 b b b b b b b 3 f f . 
+        . . . f f b b b b b b b f f . . 
+        . . . . f f b b b b b f f . . . 
+        . . . . . f f b b b f f . . . . 
+        . . . . . . f f b f f . . . . . 
+        . . . . . . . f f f . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Boat2),
+    sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . f f f f f f . f f f f f f . 
+        . f f 3 3 3 3 f f f 3 3 3 3 f f 
+        . f 3 3 3 3 3 3 f 3 3 3 3 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 3 3 3 1 1 1 3 3 f 
+        . f 3 3 3 3 3 b b b 1 1 1 3 3 f 
+        . f 3 3 3 3 b b b b b 3 3 3 3 f 
+        . f f 3 3 b b b b b b b 3 3 f f 
+        . . f f 3 b b b b b b b 3 f f . 
+        . . . f f b b b b b b b f f . . 
+        . . . . f f b b b b b f f . . . 
+        . . . . . f f b b b f f . . . . 
+        . . . . . . f f b f f . . . . . 
+        . . . . . . . f f f . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Boat2)
+    ]]
+    boatrotatep2 = ["up", "up", "up"]
+    for (let value4 of boatspritep2) {
+        makeBoatInvisible(value4)
+    }
+}
 function turnBoat (boatNum: number) {
     if (boatRotateArray[boatNum] == "up") {
         boatRotateArray[boatNum] = "sideways"
@@ -81,10 +270,10 @@ function turnBoat (boatNum: number) {
         boatRotateArray[boatNum] = "up"
     }
 }
-function isOverlapping () {
+function isOverlapping (boatspritearraypx: Sprite[][]) {
     for (let index = 0; index <= currentBoat - 1; index++) {
-        for (let previousBoatSprite2 of boatSpriteArray[index]) {
-            for (let currentBoatSprite2 of boatSpriteArray[currentBoat]) {
+        for (let previousBoatSprite2 of boatspritearraypx[index]) {
+            for (let currentBoatSprite2 of boatspritearraypx[currentBoat]) {
                 if (grid.spriteCol(previousBoatSprite2) == grid.spriteCol(currentBoatSprite2) && grid.spriteRow(previousBoatSprite2) == grid.spriteRow(currentBoatSprite2)) {
                     return 1
                 }
@@ -93,19 +282,22 @@ function isOverlapping () {
     }
     return 0
 }
+let boatrotatep2: string[] = []
 let iterator = 0
+let boatspritep2: Sprite[][] = []
+let boatRotateArray: string[] = []
 let shadowCursor: Sprite = null
 let cursor: Sprite = null
 let moveBoatFlag = 0
-let boatSpriteArray: Sprite[][] = []
-let boatRotateArray: string[] = []
+let boatspritep1: Sprite[][] = []
 let currentBoat = 0
 let rotateFlag = ""
 tiles.setCurrentTilemap(tilemap`level1`)
+p2()
 rotateFlag = "nothing"
 currentBoat = 0
-boatRotateArray = ["up", "up", "up"]
-boatSpriteArray = [[sprites.create(img`
+let boatrotatep1 = ["up", "up", "up"]
+boatspritep1 = [[sprites.create(img`
     . . . . . b b b b b b . . . . . 
     . . . b b 9 9 9 9 9 9 b b . . . 
     . . b b 9 9 9 9 9 9 9 9 b b . . 
@@ -264,7 +456,7 @@ sprites.create(img`
     . . . . . b b b b b b . . . . . 
     `, SpriteKind.Boat2)
 ]]
-for (let value4 of boatSpriteArray) {
+for (let value4 of boatspritep1) {
     makeBoatInvisible(value4)
 }
 moveBoatFlag = 1
@@ -291,22 +483,22 @@ shadowCursor = sprites.create(img`
     ........................
     ........................
     ........................
-    ..........ffff..........
-    ........ff1111ff........
-    .......fb111111bf.......
-    .......f11111111f.......
-    ......fd11111111df......
-    ......fd11111111df......
-    ......fddd1111dddf......
-    ......fbdbfddfbdbf......
-    ......fcdcf11fcdcf......
-    .......fb111111bf.......
-    ......fffcdb1bdffff.....
-    ....fc111cbfbfc111cf....
-    ....f1b1b1ffff1b1b1f....
-    ....fbfbffffffbfbfbf....
-    .........ffffff.........
-    ...........fff..........
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
     ........................
     ........................
     ........................
@@ -315,14 +507,5 @@ shadowCursor = sprites.create(img`
 grid.snap(cursor)
 grid.snap(shadowCursor)
 game.onUpdate(function () {
-    if (moveBoatFlag == 1) {
-        moveBoat(boatSpriteArray[currentBoat])
-        if (isOverlapping()) {
-            if (rotateFlag != "nothing") {
-                boatRotateArray[currentBoat] = rotateFlag
-            } else {
-                grid.place(cursor, grid.getLocation(shadowCursor))
-            }
-        }
-    }
+    updatepx("player2")
 })
